@@ -6,7 +6,7 @@ Modtitle.style.textAlign = "center";
 Modtitle.style.fontSize = "50px";
 Modtitle.style.fontFamily = "Impact";
 Modtitle.style.color = "red";
-const ModetitleDes = document.createElement("h1");
+const ModtitleDes = document.createElement("h1");
 ModtitleDes.textContent = "An added mod by Ian";
 ModtitleDes.style.textAlign = "center";
 
