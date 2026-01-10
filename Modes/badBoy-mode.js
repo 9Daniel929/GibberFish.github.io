@@ -1,5 +1,5 @@
 //You know this kind of import and export, so do it on the top.
-document.body.style.backgroundImage = "url('https://img.freepik.com/premium-photo/cracked-wall-background-cracked-dry-ground_553949-249.jpg');";
+document.body.style.backgroundImage = "url('https://img.freepik.com/premium-photo/cracked-wall-background-cracked-dry-ground_553949-249.jpg')";
 const Modtitle = document.createElement("h1");
 Modtitle.textContent = "BAD BOY";
 Modtitle.style.textAlign = "center";
