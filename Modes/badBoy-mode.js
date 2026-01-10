@@ -15,6 +15,8 @@ const ModDisableWrap = document.createElement("div"); //Adult
 ModDisableWrap.align = "Assets/Badboy_disable.png";
 const ModDisable = document.createElement("img");
 ModDisable.src = "Assets/Badboy_disable.png";
+ModDisable.width = "25px";
+ModDisable.height = "25px";
 
 document.body.appendChild(Modtitle);
 document.body.appendChild(ModtitleDes);
