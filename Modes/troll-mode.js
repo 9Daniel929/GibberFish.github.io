@@ -1,7 +1,9 @@
 // modes/troll-mode.js
-// Troll Mode controller for Chaos Mode.
+window.GF = window.GF || {};
 
-export function createTrollController({ onLog, onSpawn }) {
+GF.createTrollController = function (opts) {
+  const onLog = opts.onLog || function () {};
+  const onSpawn = opts.onSpawn || function () {};
   let enabled = false;
 
   function setEnabled(v) {
@@ -23,14 +25,26 @@ export function createTrollController({ onLog, onSpawn }) {
   function fakePrinter() {
     onLog('[GF-PRINTER] Connecting to BlubJet 3000...');
     setTimeout(() => {
-      onSpawn({ type: 'printer', title: 'BlubJet Log', letter: '?', rarity: 'uncommon', payload: { text: 'Printed: mysterious receipt' } });
+      onSpawn({
+        type: 'printer',
+        title: 'BlubJet Log',
+        letter: '?',
+        rarity: 'uncommon',
+        payload: { text: 'Printed: mysterious receipt' }
+      });
       onLog('[GF-PRINTER] Print job complete.');
     }, 800);
   }
 
   function fakeCall() {
     onLog('[GF-PHONE] Incoming call from Deep Sea Caller...');
-    onSpawn({ type: 'call', title: 'Deep Sea Caller', letter: '?', rarity: 'uncommon', payload: { name: 'Deep Sea Caller' } });
+    onSpawn({
+      type: 'call',
+      title: 'Deep Sea Caller',
+      letter: '?',
+      rarity: 'uncommon',
+      payload: { name: 'Deep Sea Caller' }
+    });
     setTimeout(() => onLog('[GF-PHONE] Call ended.'), 2600);
   }
 
@@ -53,4 +67,4 @@ export function createTrollController({ onLog, onSpawn }) {
     fakePrinter,
     fakeCall
   };
-}
+};
