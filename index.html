@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <title>GibberFish — Chaos Universe</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <link rel="icon" type="image/jpeg" href="Assets/icon.jpeg">
+
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Fira+Mono:wght@400;700&display=swap" rel="stylesheet">
 
@@ -15,9 +15,29 @@
   <link rel="stylesheet" href="./styles/chaos.css">
   <link rel="stylesheet" href="./styles/codemode.css">
 </head>
-<body id="page">
+<body>
   <div id="app-root"></div>
-  <script type="module" src="./app.js"></script>
-  <script type="module" src="Ui/layout.js"></script>
+
+  <!-- Scripts: order matters -->
+  <script src="./ui/layout.js"></script>
+  <script src="./ui/navigation.js"></script>
+
+  <script src="./content/pools.js"></script>
+
+  <script src="./engine/randomness.js"></script>
+  <script src="./engine/chaos-engine.js"></script>
+  <script src="./engine/sandbox.js"></script>
+  <script src="./engine/code-dsl-interpreter.js"></script>
+
+  <script src="./ui/cards.js"></script>
+  <script src="./ui/renderer.js"></script>
+
+  <script src="./modes/troll-mode.js"></script>
+  <script src="./modes/mode-hub.js"></script>
+  <script src="./modes/chaos-mode.js"></script>
+  <script src="./modes/code-mode.js"></script>
+
+  <script src="./app.js"></script>
 </body>
 </html>
+
