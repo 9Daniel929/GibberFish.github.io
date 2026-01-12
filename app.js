@@ -10,7 +10,7 @@ window.GF = window.GF || {};
   const layout = GF.createLayout(root);
   const nav = GF.createNavigation(layout);
 
-  // Mode instances (lazy-created)
+  // Lazy
   let hubMode = null;
   let chaosMode = null;
   let codeMode = null;
