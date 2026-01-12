@@ -1,14 +1,14 @@
 // ui/renderer.js
-import { renderArtifactCard, renderLogCard } from './cards.js';
+window.GF = window.GF || {};
 
-export function createChaosRenderer(outputEl) {
+window.GF.createChaosRenderer = function (outputEl) {
   function addArtifact(artifact) {
-    const card = renderArtifactCard(artifact);
+    var card = window.GF.renderArtifactCard(artifact);
     outputEl.prepend(card);
   }
 
   function addLog(message) {
-    const card = renderLogCard(message);
+    var card = window.GF.renderLogCard(message);
     outputEl.prepend(card);
   }
 
@@ -16,5 +16,5 @@ export function createChaosRenderer(outputEl) {
     outputEl.innerHTML = '';
   }
 
-  return { addArtifact, addLog, clear };
-}
+  return { addArtifact: addArtifact, addLog: addLog, clear: clear };
+};
