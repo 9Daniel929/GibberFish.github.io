@@ -1,47 +1,43 @@
 // app.js
-import { createLayout } from './ui/layout.js';
-import { createNavigation } from './ui/navigation.js';
-import { createHubMode } from './modes/mode-hub.js';
-import { createChaosMode } from './modes/chaos-mode.js';
-import { createCodeMode } from './modes/code-mode.js';
+window.GF = window.GF || {};
 
-const root = document.getElementById('app-root');
+(function () {
+  const GF = window.GF;
 
-// App layout
-const layout = createLayout(root);
-const nav = createNavigation(layout);
+  const root = document.getElementById('app-root');
 
-// Mode instances (lazy-created)
-let hubMode = null;
-let chaosMode = null;
-let codeMode = null;
+  // App layout
+  const layout = GF.createLayout(root);
+  const nav = GF.createNavigation(layout);
 
-function showMode(name) {
-  // clear content area
-  layout.clearMain();
+  // Mode instances (lazy-created)
+  let hubMode = null;
+  let chaosMode = null;
+  let codeMode = null;
 
-  // update nav active state
-  nav.setActiveMode(name);
+  function showMode(name) {
+    layout.clearMain();
+    nav.setActiveMode(name);
 
-  if (name === 'hub') {
-    if (!hubMode) hubMode = createHubMode(layout.main, { onSelectMode });
-    hubMode.show();
-  } else if (name === 'chaos') {
-    if (!chaosMode) chaosMode = createChaosMode(layout.main, nav);
-    chaosMode.show();
-  } else if (name === 'code') {
-    if (!codeMode) codeMode = createCodeMode(layout.main, nav);
-    codeMode.show();
+    if (name === 'hub') {
+      if (!hubMode) hubMode = GF.createHubMode(layout.main, { onSelectMode });
+      hubMode.show();
+    } else if (name === 'chaos') {
+      if (!chaosMode) chaosMode = GF.createChaosMode(layout.main, nav);
+      chaosMode.show();
+    } else if (name === 'code') {
+      if (!codeMode) codeMode = GF.createCodeMode(layout.main, nav);
+      codeMode.show();
+    }
   }
-}
 
-function onSelectMode(name) {
-  showMode(name);
-}
+  function onSelectMode(name) {
+    showMode(name);
+  }
 
-// wired navigation
-nav.onBack(() => showMode('hub'));
-nav.onModeSelect((name) => showMode(name));
+  nav.onBack(function () { showMode('hub'); });
+  nav.onModeSelect(function (name) { showMode(name); });
 
-// start at hub
-showMode('hub');
+  // start at hub
+  showMode('hub');
+})();
