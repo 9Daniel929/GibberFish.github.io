@@ -1,11 +1,7 @@
 // modes/chaos-mode.js
-import { ChaosEngine } from '../engine/chaos-engine.js';
-import { createSandbox } from '../engine/sandbox.js';
-import { getPoolSummary } from '../content/pools.js';
-import { createChaosRenderer } from '../ui/renderer.js';
-import { createTrollController } from './troll-mode.js';
+window.GF = window.GF || {};
 
-export function createChaosMode(container, nav) {
+GF.createChaosMode = function (container, nav) {
   const root = document.createElement('div');
   root.className = 'gf-chaos-root';
 
@@ -18,7 +14,6 @@ export function createChaosMode(container, nav) {
   const rightPanel = document.createElement('div');
   rightPanel.className = 'gf-panel gf-chaos-output-panel';
 
-  // Left: input, stats
   const inputLabel = document.createElement('div');
   inputLabel.textContent = 'Feed the Void';
 
@@ -56,7 +51,7 @@ export function createChaosMode(container, nav) {
 
   const poolInfo = document.createElement('div');
   poolInfo.className = 'gf-chaos-hint';
-  const ps = getPoolSummary();
+  const ps = GF.getPoolSummary();
   poolInfo.textContent = `Pools: Memes ${ps.memes}, Code ${ps.codeFragments}, Calls ${ps.fakeCalls}, Printer ${ps.printerMessages}`;
 
   leftPanel.appendChild(inputLabel);
@@ -65,7 +60,6 @@ export function createChaosMode(container, nav) {
   leftPanel.appendChild(hint);
   leftPanel.appendChild(poolInfo);
 
-  // Right: output
   const outHeader = document.createElement('div');
   outHeader.className = 'gf-chaos-output-header';
   const outTitle = document.createElement('div');
@@ -100,11 +94,10 @@ export function createChaosMode(container, nav) {
   grid.appendChild(rightPanel);
   root.appendChild(grid);
 
-  // logic
-  const engine = new ChaosEngine();
-  const sandbox = createSandbox();
-  const renderer = createChaosRenderer(outputZone);
-  const troll = createTrollController({
+  const engine = new GF.ChaosEngine();
+  const sandbox = GF.createSandbox();
+  const renderer = GF.createChaosRenderer(outputZone);
+  const troll = GF.createTrollController({
     onLog: (m) => renderer.addLog(m),
     onSpawn: (card) => {
       const art = {
@@ -150,7 +143,6 @@ export function createChaosMode(container, nav) {
 
   runBtn.addEventListener('click', async () => {
     renderer.addLog('[GF] Running chaos...');
-    // assemble code fragments
     const fragments = engine.artifacts.filter(a => a.type === 'code' && a.payload && a.payload.code);
     const code = fragments.map(f => `// ${f.title}\n${f.payload.code}`).join('\n\n');
     if (!code.trim()) {
@@ -214,4 +206,4 @@ export function createChaosMode(container, nav) {
       updateStats();
     }
   };
-}
+};
