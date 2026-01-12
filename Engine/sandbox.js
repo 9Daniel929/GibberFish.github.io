@@ -1,7 +1,7 @@
 // engine/sandbox.js
-// Safe-ish sandbox: iframe with limited GF API for messages.
+window.GF = window.GF || {};
 
-export function createSandbox() {
+GF.createSandbox = function () {
   const container = document.createElement('div');
   container.style.display = 'none';
   document.body.appendChild(container);
@@ -26,7 +26,8 @@ export function createSandbox() {
     </html>
   `;
 
-  function run(code, timeout = 2000) {
+  function run(code, timeout) {
+    timeout = timeout || 2000;
     return new Promise((resolve) => {
       const win = iframe.contentWindow;
       let finished = false;
@@ -66,8 +67,8 @@ export function createSandbox() {
   }
 
   function destroy() {
-    try { document.body.removeChild(container); } catch(e) {}
+    try { document.body.removeChild(container); } catch (e) {}
   }
 
   return { run, destroy };
-}
+};
