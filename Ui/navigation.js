@@ -1,47 +1,51 @@
 // ui/navigation.js
 window.GF = window.GF || {};
 
-window.GF.createNavigation = function (layout) {
-  const backBtn = layout.backBtn;
-  const modeButtons = layout.modeButtons;
-  const trollBtn = layout.trollBtn;
-  const meterFill = layout.meterFill;
-  const tagline = layout.tagline;
+GF.createNavigation = function (layout) {
+  const { backBtn, modeButtons, trollBtn, meterFill, tagline } = layout;
 
   let backHandler = null;
   let modeHandler = null;
   let activeMode = 'hub';
 
+  // Mode buttons
   const modes = [
     { key: 'chaos', label: 'Chaos Mode' },
     { key: 'code', label: 'Code Mode' }
   ];
 
   const btns = new Map();
-  modes.forEach(function (m) {
+
+  modes.forEach(m => {
     const btn = document.createElement('button');
     btn.className = 'gf-mode-btn';
     btn.textContent = m.label;
-    btn.addEventListener('click', function () {
+
+    btn.addEventListener('click', () => {
       if (modeHandler) modeHandler(m.key);
     });
+
     modeButtons.appendChild(btn);
     btns.set(m.key, btn);
   });
 
-  backBtn.addEventListener('click', function () {
+  // Back button
+  backBtn.addEventListener('click', () => {
     if (backHandler) backHandler();
   });
 
+  // Show/hide troll button
   function setTrollVisible(visible) {
     trollBtn.style.display = visible ? 'inline-flex' : 'none';
   }
 
+  // Update active mode UI
   function setActiveMode(key) {
     activeMode = key;
+
     backBtn.style.display = key === 'hub' ? 'none' : 'inline-flex';
 
-    btns.forEach(function (b, k) {
+    btns.forEach((b, k) => {
       b.classList.toggle('active', k === key);
     });
 
@@ -50,20 +54,22 @@ window.GF.createNavigation = function (layout) {
     else if (key === 'code') tagline.textContent = 'Code Mode • Script the fish';
   }
 
+  // Register callbacks
   function onBack(fn) { backHandler = fn; }
   function onModeSelect(fn) { modeHandler = fn; }
 
+  // Chaos meter
   function setChaosMeter(percent) {
-    var p = Math.max(0, Math.min(100, percent));
+    const p = Math.max(0, Math.min(100, percent));
     meterFill.style.width = p + '%';
   }
 
   return {
-    onBack: onBack,
-    onModeSelect: onModeSelect,
-    setActiveMode: setActiveMode,
-    setChaosMeter: setChaosMeter,
-    trollBtn: trollBtn,
-    setTrollVisible: setTrollVisible
+    onBack,
+    onModeSelect,
+    setActiveMode,
+    setChaosMeter,
+    trollBtn,
+    setTrollVisible
   };
 };
