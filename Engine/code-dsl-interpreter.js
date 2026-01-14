@@ -1,121 +1,110 @@
 // engine/code-dsl-interpreter.js
 window.GF = window.GF || {};
 
-(function () {
-  function interpretGibberfishCode(rawText) {
-    var lines = (rawText || '').split('\n');
+GF.interpretGibberfishCode = function (rawText) {
+  const lines = (rawText || '').split('\n');
+  const blocks = [];
+  let current = [];
 
-    var blocks = [];
-    var current = [];
+  // Push current block into blocks
+  function pushBlock() {
+    if (current.length > 0) {
+      blocks.push(current);
+      current = [];
+    }
+  }
 
-    function pushBlock() {
-      if (current.length > 0) {
-        blocks.push(current);
-        current = [];
-      }
+  // Split into blocks using "Gibberfish Obey:"
+  lines.forEach((line, index) => {
+    const trimmed = line.trim();
+    const lineObj = { raw: line, trimmed, index: index + 1 };
+
+    if (/^Gibberfish\s*Obey:$/i.test(trimmed)) {
+      pushBlock();
+    } else {
+      current.push(lineObj);
+    }
+  });
+
+  pushBlock();
+
+  const actions = [];
+
+  // Parse each block
+  for (const block of blocks) {
+    if (block.length === 0) continue;
+
+    const first = block[0].trimmed;
+
+    // Random code block
+    if (/^Gibberfish:\(random\.code\);$/i.test(first)) {
+      actions.push({ type: 'random-code', block });
+      continue;
     }
 
-    lines.forEach(function (line, index) {
-      var trimmed = line.trim();
-      var lineObj = { raw: line, trimmed: trimmed, index: index+1 };
+    // Image insert
+    let imageMatch = first.match(/^Gibberfish:\(image\.insert\)\/\((.+)\)\\$/i);
+    if (imageMatch) {
+      const url = imageMatch[1].trim();
+      const meta = parseMeta(block.slice(1));
+      actions.push({ type: 'image', url, meta, block });
+      continue;
+    }
 
-      if (/^Gibberfish\s*Obey:$/i.test(trimmed)) {
-        pushBlock();
-      } else {
-        current.push(lineObj);
-      }
-    });
-    pushBlock();
+    // Iframe import
+    let iframeMatch = first.match(/^Gibberfish:\(Iframe\.import\);\/\((.+)\)\\$/i);
+    if (iframeMatch) {
+      const url = iframeMatch[1].trim();
+      const meta = parseMeta(block.slice(1));
+      actions.push({ type: 'iframe', url, meta, block });
+      continue;
+    }
 
-    var actions = [];
-
-    blocks.forEach(function (block) {
-      if (block.length === 0) return;
-      var first = block[0].trimmed;
-
-      if (/^Gibberfish:\(random\.code\);$/i.test(first)) {
-        actions.push({ type: 'random-code', block: block });
-        return;
-      }
-
-      var imageMatch = first.match(/^Gibberfish:\(image\.insert\)\/\((.+)\)\\$/i);
-      var iframeMatch = first.match(/^Gibberfish:\(Iframe\.import\);\/\((.+)\)\\$/i);
-      var codeMatch = first.match(/^Gibberfish:\(code\);\/\(([\s\S]+)\)\\$/i);
-
-      if (imageMatch) {
-        var url = imageMatch[1].trim();
-        var meta = parseMeta(block.slice(1));
-        actions.push({
-          type: 'image',
-          url: url,
-          meta: meta,
-          block: block
-        });
-        return;
-      }
-
-      if (iframeMatch) {
-        var url2 = iframeMatch[1].trim();
-        var meta2 = parseMeta(block.slice(1));
-        actions.push({
-          type: 'iframe',
-          url: url2,
-          meta: meta2,
-          block: block
-        });
-        return;
-      }
-
-      if (codeMatch) {
-        var codeContent = codeMatch[1];
-        actions.push({
-          type: 'raw-code',
-          code: codeContent,
-          block: block
-        });
-        return;
-      }
-    });
-
-    return actions;
+    // Raw code block
+    let codeMatch = first.match(/^Gibberfish:\(code\);\/\(([\s\S]+)\)\\$/i);
+    if (codeMatch) {
+      const codeContent = codeMatch[1];
+      actions.push({ type: 'raw-code', code: codeContent, block });
+      continue;
+    }
   }
 
-  function parseMeta(lines) {
-    var meta = {
-      rigSeconds: null,
-      placement: null
-    };
+  return actions;
+};
 
-    var expectingPlacement = false;
+// Parse metadata inside a block
+function parseMeta(lines) {
+  const meta = {
+    rigSeconds: null,
+    placement: null
+  };
 
-    lines.forEach(function (line) {
-      var t = line.trimmed;
-      if (/^Gibberfish\.Says$/i.test(t)) {
-        expectingPlacement = false;
-        return;
-      }
+  let expectingPlacement = false;
 
-      var rigMatch = t.match(/^Gibberfish:\(set\.rig\.time(?:\.(\d+))?\)=image;$/i);
-      if (rigMatch) {
-        var n = rigMatch[1];
-        meta.rigSeconds = n ? parseInt(n, 10) : 0;
-        return;
-      }
+  for (const line of lines) {
+    const t = line.trimmed;
 
-      if (/^Gibberfish:\(set\.placement\);$/i.test(t)) {
-        expectingPlacement = true;
-        return;
-      }
+    // Rig time
+    let rigMatch = t.match(/^Gibberfish:\(set\.rig\.time(?:\.(\d+))?\)=image;$/i);
+    if (rigMatch) {
+      const n = rigMatch[1];
+      meta.rigSeconds = n ? parseInt(n, 10) : 0;
+      continue;
+    }
 
-      if (expectingPlacement && t.length > 0) {
-        meta.placement = t;
-        expectingPlacement = false;
-        return;
-      }
-    });
+    // Placement start
+    if (/^Gibberfish:\(set\.placement\);$/i.test(t)) {
+      expectingPlacement = true;
+      continue;
+    }
 
-    return meta;
+    // Placement value
+    if (expectingPlacement && t.length > 0) {
+      meta.placement = t;
+      expectingPlacement = false;
+      continue;
+    }
   }
 
-  window.GF.interpretGibberfishCode = interpretGibberfishCode;
-})();
+  return meta;
+}
