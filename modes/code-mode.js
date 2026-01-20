@@ -31,7 +31,7 @@ GF.createCodeMode = function (container, nav) {
     const runBtn = document.createElement('button');
     runBtn.className = 'gf-code-run-btn';
     runBtn.textContent = 'Run Script';
-    runBtn.addEventListener('click', runScript);
+    runBtn.onclick = function() {};
     root.appendChild(runBtn);
 
     // Output area
