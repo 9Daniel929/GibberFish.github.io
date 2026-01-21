@@ -364,17 +364,17 @@ GF.createCodeMode = function (container, nav) {
 
   function execFishSummon() {
     const names = [
-      'Bloopus the Unstable',
+      'Nemo the Dead Fish',
       'Sir Wiggleton IV',
       'The Forbidden Salmon',
-      'Packet Eater',
-      'Lag Carp'
+      'Gibberfish😏',
+      'Pocket Eater'
     ];
     const lines = [
       'Blub. I have arrived.',
       'You summoned me for THIS?',
       'I demand snacks.',
-      'Your code smells like seaweed.',
+      'Your code smells like poop from a jellyfish.',
       'I saw what you typed.'
     ];
 
