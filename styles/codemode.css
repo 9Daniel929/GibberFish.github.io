@@ -539,3 +539,27 @@
 @keyframes gf-explode {
   0% { transform: scale(1); opacity: 1; filter: blur(0); }
   50% { transform: scale(1
+  .gf-code-input {
+  position: relative;
+  z-index: 9999;
+  pointer-events: auto;
+}
+
+.gf-code-output > div,
+.gf-code-output > * {
+  pointer-events: none;
+}
+
+.gf-code-output .gf-card,
+.gf-code-output .gf-code-image-card,
+.gf-code-output .gf-code-iframe-card,
+.gf-code-output .gf-code-says-card,
+.gf-code-output .gf-code-audio-card,
+.gf-code-output .gf-code-lore-card,
+.gf-code-output .gf-code-entity-card,
+.gf-code-output .gf-code-fish-card,
+.gf-code-output .gf-code-portal-card,
+.gf-code-output .gf-code-ritual-card {
+  pointer-events: auto;
+}
+                       
