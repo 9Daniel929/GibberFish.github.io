@@ -25,8 +25,9 @@ GF.createCodeMode = function (container, nav) {
     inputWrap.className = 'gf-code-input-wrap';
 
     input = document.createElement('textarea');
-    input.id = 'gf-code-input';
-    input.placeholder = 'Write GibberFish script…';
+input.id = 'gf-code-input';
+input.className = 'gf-code-input';
+input.placeholder = 'Write GibberFish script…';
 
     inputWrap.appendChild(input);
     root.appendChild(inputWrap);
