@@ -10,7 +10,7 @@
   flex: 0 0 auto;
 }
 
-.gf-code-input {
+#gf-code-input {
   width: 100%;
   min-height: 120px;
   background: #050814;
