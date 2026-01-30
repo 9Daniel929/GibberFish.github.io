@@ -6,7 +6,6 @@ GF.createCodeMode = function (container, nav) {
   const troll = GF.createTrollMode(nav);
 
   let root = null;
-  let input = null;
   let output = null;
   let renderer = null;
   let timeLoopIntervals = [];
@@ -24,7 +23,7 @@ GF.createCodeMode = function (container, nav) {
     const inputWrap = document.createElement('div');
     inputWrap.className = 'gf-code-input-wrap';
 
-    input = document.createElement('textarea');
+    const input = document.createElement('textarea');
 input.id = 'gf-code-input';
 input.className = 'gf-code-input';
 input.placeholder = 'Write GibberFish script…';
