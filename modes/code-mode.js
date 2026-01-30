@@ -29,8 +29,9 @@ input.id = 'gf-code-input';
 input.className = 'gf-code-input';
 input.placeholder = 'Write GibberFish script…';
 
-    inputWrap.appendChild(input);
     root.appendChild(inputWrap);
+    inputWrap.appendChild(input);
+    
 
     const runBtn = document.createElement('button');
     runBtn.className = 'gf-code-run-btn';
