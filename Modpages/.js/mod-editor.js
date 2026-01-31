@@ -5,36 +5,19 @@
   const modNameInput = document.querySelector(".mod-name-input");
   const publishBtn = document.querySelector(".topbar .btn");
 
-  const PROJECTS_KEY = "gf_mod_projects";
-  const DOWNLOADED_KEY = "gf_downloaded_mods";
-
   let currentModName = "";
   let currentFiles = {};
   let currentFile = null;
   let isLoading = false;
+  let saveTimer = null;
 
-  function loadAllProjects() {
-    try {
-      return JSON.parse(localStorage.getItem(PROJECTS_KEY) || "{}");
-    } catch (e) {
-      return {};
+  function debounceSave() {
+    if (saveTimer) {
+      clearTimeout(saveTimer);
     }
-  }
-
-  function saveAllProjects(projects) {
-    localStorage.setItem(PROJECTS_KEY, JSON.stringify(projects));
-  }
-
-  function loadDownloadedMods() {
-    try {
-      return JSON.parse(localStorage.getItem(DOWNLOADED_KEY) || "{}");
-    } catch (e) {
-      return {};
-    }
-  }
-
-  function saveDownloadedMods(mods) {
-    localStorage.setItem(DOWNLOADED_KEY, JSON.stringify(mods));
+    saveTimer = setTimeout(function () {
+      saveProject();
+    }, 200);
   }
 
   function ensureModName() {
@@ -47,19 +30,16 @@
     return name;
   }
 
-  function loadProjectForCurrentMod() {
-    const projects = loadAllProjects();
+  function loadExistingProject() {
     const name = ensureModName();
-    const project = projects[name];
-
+    const project = ModStorage.loadProject(name);
     if (project && project.files && Object.keys(project.files).length > 0) {
       currentFiles = project.files;
-      currentFile = project.currentFile || Object.keys(currentFiles)[0];
+      currentFile = project.meta && project.meta.currentFile ? project.meta.currentFile : Object.keys(currentFiles)[0];
     } else {
       currentFiles = { "main.js": "" };
       currentFile = "main.js";
     }
-
     renderFileList();
     loadCurrentFileIntoEditor();
   }
@@ -67,17 +47,18 @@
   function saveProject() {
     if (isLoading) return;
     const name = ensureModName();
-    const projects = loadAllProjects();
-    projects[name] = {
-      files: currentFiles,
-      currentFile: currentFile
-    };
-    saveAllProjects(projects);
+    if (currentFile) {
+      currentFiles[currentFile] = editor.value;
+    }
+    const meta = { currentFile: currentFile };
+    ModStorage.saveProject(name, currentFiles, meta);
   }
 
   function renderFileList() {
     fileListEl.innerHTML = "";
-    Object.keys(currentFiles).forEach(function (filename) {
+    const names = Object.keys(currentFiles);
+    for (let i = 0; i < names.length; i++) {
+      const filename = names[i];
       const item = document.createElement("div");
       item.className = "file-item";
       item.textContent = filename;
@@ -88,7 +69,7 @@
         switchFile(filename);
       });
       fileListEl.appendChild(item);
-    });
+    }
   }
 
   function switchFile(filename) {
@@ -108,12 +89,12 @@
   }
 
   function createNewFile() {
-    let baseName = "file";
+    let base = "file";
     let index = 1;
-    let candidate = baseName + index + ".js";
+    let candidate = base + index + ".js";
     while (currentFiles[candidate]) {
       index += 1;
-      candidate = baseName + index + ".js";
+      candidate = base + index + ".js";
     }
     currentFiles[candidate] = "";
     currentFile = candidate;
@@ -122,20 +103,31 @@
     saveProject();
   }
 
+  function buildPublishedPayload() {
+    const name = ensureModName();
+    const user = ModStorage.loadUser();
+    const author = user && user.username ? user.username : "Anonymous";
+    const meta = {
+      name: name,
+      author: author
+    };
+    return {
+      name: name,
+      author: author,
+      files: currentFiles,
+      meta: meta
+    };
+  }
+
   function publishMod() {
     if (currentFile) {
       currentFiles[currentFile] = editor.value;
     }
-    const name = ensureModName();
-    const downloaded = loadDownloadedMods();
-    downloaded[name] = {
-      name: name,
-      files: currentFiles,
-      createdAt: Date.now()
-    };
-    saveDownloadedMods(downloaded);
+    const payload = buildPublishedPayload();
+    ModStorage.savePublishedMod(payload.name, payload);
+    ModStorage.saveDownloadedMod(payload.name, payload);
     saveProject();
-    alert("Mod published: " + name);
+    alert("Mod published: " + payload.name);
   }
 
   createFileBtn.addEventListener("click", function () {
@@ -145,11 +137,11 @@
   editor.addEventListener("input", function () {
     if (!currentFile || isLoading) return;
     currentFiles[currentFile] = editor.value;
-    saveProject();
+    debounceSave();
   });
 
   modNameInput.addEventListener("input", function () {
-    saveProject();
+    debounceSave();
   });
 
   publishBtn.addEventListener("click", function () {
@@ -157,6 +149,6 @@
   });
 
   window.addEventListener("load", function () {
-    loadProjectForCurrentMod();
+    loadExistingProject();
   });
 })();
