@@ -635,7 +635,7 @@ input.placeholder = 'Write GibberFish script…';
   function maybeTroll() {
     if (Math.random() < 0.2) {
       const msg = [
-        'I'm Watching You😈.',
+        "I'm Watching You😈.",
         'ITS THE FBI OPEN UP.',
         'GIBBERFISH ISNT PLEASED YOU WILL NOW SUB TO @ceuNOW and @hipchip-p2n on youtube or else you DIE.',
         'You didnt pay your taxes, here are your expenses: 5073867387589672098000000999999$ pay now or else termination.'
