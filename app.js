@@ -5,7 +5,7 @@ window.GF = window.GF || {};
   const root = document.getElementById('app-root');
 
   // Build layout + navigation
-  const layout = GF.createLayout(root);
+  const layout = GF.createLayout(root); //Problem
   const nav = GF.createNavigation(layout);
 
   // Lazy-loaded modes
