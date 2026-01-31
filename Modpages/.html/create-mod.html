@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Create Mod — GibberFish</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    body {
+      background: #05060a;
+      color: #f5f7ff;
+      font-family: "Space Grotesk", sans-serif;
+      margin: 0;
+      display: flex;
+      height: 100vh;
+    }
+
+    .sidebar {
+      width: 260px;
+      background: #0b0f1a;
+      border-right: 1px solid rgba(255,255,255,0.08);
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    .editor-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .topbar {
+      padding: 12px;
+      background: #0b0f1a;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .file-list-title {
+      font-size: 14px;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+
+    .file-item {
+      padding: 8px;
+      background: #111522;
+      border-radius: 6px;
+      margin-bottom: 8px;
+      cursor: pointer;
+    }
+
+    .file-item:hover {
+      background: #151a2b;
+    }
+
+    .btn {
+      padding: 8px 12px;
+      background: #111522;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 6px;
+      color: #f5f7ff;
+      cursor: pointer;
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+
+    .editor-box {
+      flex: 1;
+      background: #0f1320;
+      padding: 0;
+      margin: 0;
+    }
+
+    textarea {
+      width: 100%;
+      height: 100%;
+      background: #0f1320;
+      color: #f5f7ff;
+      border: none;
+      outline: none;
+      padding: 20px;
+      font-family: monospace;
+      font-size: 14px;
+      resize: none;
+    }
+
+    .mod-name-input {
+      background: #111522;
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 8px;
+      border-radius: 6px;
+      color: #f5f7ff;
+      width: 200px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="sidebar">
+    <div class="file-list-title">Files</div>
+    <div id="file-list">
+    </div>
+
+    <button class="btn" id="create-file-btn">Create Diff File</button>
+  </div>
+
+  <div class="editor-area">
+    <div class="topbar">
+      <input class="mod-name-input" placeholder="Mod Name" />
+      <button class="btn">Publish Mod</button>
+    </div>
+
+    <div class="editor-box">
+      <textarea id="editor" placeholder="Write your mod code here..."></textarea>
+    </div>
+  </div>
+
+</body>
+</html>
