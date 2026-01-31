@@ -49,7 +49,8 @@ input.placeholder = 'Write GibberFish script…';
   }
 
   function runScript() {
-    const text = input.value.trim();
+    var fetchedInput = document.getElementById("gf-code-input");
+    const text = fetchedInput.value.trim();
     if (!text) {
       renderer.log('No script to run.', 'error');
       return;
