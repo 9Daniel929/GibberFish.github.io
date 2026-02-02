@@ -1,0 +1,73 @@
+name: GibberFish Frontend CI
+
+on:
+  push:
+    paths:
+      - "styles/**"
+      - "ui/**"
+      - "engine/**"
+      - "modes/**"
+      - "app.js"
+      - "index.html"
+      - ".github/workflows/frontend-ci.yml"
+  pull_request:
+    paths:
+      - "styles/**"
+      - "ui/**"
+      - "engine/**"
+      - "modes/**"
+      - "app.js"
+      - "index.html"
+
+jobs:
+  frontend-ci:
+    name: Validate Frontend
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate required frontend files
+        run: |
+          REQUIRED=(
+            "index.html"
+            "app.js"
+            "ui/layout.js"
+            "ui/navigation.js"
+            "engine/chaos-engine.js"
+            "engine/code-dsl-interpreter.js"
+            "modes/mode-hub.js"
+            "modes/chaos-mode.js"
+            "modes/code-mode.js"
+          )
+          for FILE in "${REQUIRED[@]}"; do
+            if [ ! -f "$FILE" ]; then
+              echo "Missing required frontend file: $FILE"
+              exit 1
+            fi
+          done
+          echo "✔ All required frontend files exist."
+
+      - name: HTML syntax check
+        run: |
+          if ! grep -q "<!DOCTYPE html>" index.html; then
+            echo "index.html missing DOCTYPE"
+            exit 1
+          fi
+          echo "✔ HTML structure OK."
+
+      - name: JS syntax check
+        run: |
+          node -c app.js
+          node -c ui/layout.js
+          node -c ui/navigation.js
+          node -c engine/chaos-engine.js
+          node -c engine/code-dsl-interpreter.js
+          node -c modes/mode-hub.js
+          node -c modes/chaos-mode.js
+          node -c modes/code-mode.js
+          echo "✔ All JS files passed syntax check."
+
+      - name: Frontend CI Completed
+        run: echo "Frontend validated successfully!"
