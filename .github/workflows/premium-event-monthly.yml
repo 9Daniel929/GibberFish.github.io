@@ -1,0 +1,26 @@
+name: Monthly Premium Event Reset
+
+on:
+  schedule:
+    - cron: "0 0 28-31 * *"
+
+jobs:
+  reset-event:
+    name: Reset Monthly Event
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run monthly reset script
+        run: |
+          node backend/scripts/reset-event.js
+
+      - name: Commit reset data
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add backend/data/
+          git commit -m "Monthly event reset"
+          git push
