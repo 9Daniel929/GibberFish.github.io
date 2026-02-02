@@ -1,0 +1,94 @@
+#admin-event-root {
+  max-width: 900px;
+  margin: 20px auto;
+  color: #ffffff;
+}
+
+.admin-section {
+  margin-bottom: 32px;
+  padding: 16px;
+  border-radius: 12px;
+  background: rgba(10, 10, 20, 0.9);
+}
+
+.admin-section h2 {
+  margin-top: 0;
+  margin-bottom: 8px;
+}
+
+.admin-section button {
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  background: #4b8bff;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+#round1-winners {
+  list-style: none;
+  padding: 0;
+  margin-top: 8px;
+}
+
+#round1-winners li {
+  font-size: 14px;
+  margin-bottom: 2px;
+}
+
+#finalist-display {
+  margin-top: 8px;
+  font-weight: 600;
+}
+
+#final-result {
+  margin-top: 12px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.gf-wheel-wrapper {
+  position: relative;
+  width: 260px;
+  height: 260px;
+  margin: 12px auto;
+}
+
+.gf-wheel {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 4px solid #ffffff;
+  transition: transform 0.2s linear;
+}
+
+.gf-wheel-pointer {
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 16px solid #ff4b8b;
+}
+
+.gf-wheel-label {
+  text-align: center;
+  margin-top: 8px;
+  font-size: 14px;
+}
+
+.gf-wheel-spin-btn {
+  display: block;
+  margin: 8px auto 0 auto;
+  padding: 8px 18px;
+  border-radius: 999px;
+  border: none;
+  background: #4bffb8;
+  color: #000000;
+  font-weight: 700;
+  cursor: pointer;
+}
