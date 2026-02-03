@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>GibberFish — Collection Box</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Fira+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles/base.css">
+  <link rel="stylesheet" href="styles/collection-box.css">
+</head>
+<body class="gf-collection-body">
+  <div class="gf-collection-bg"></div>
+
+  <div class="gf-collection-shell">
+    <header class="gf-collection-header">
+      <h1 class="gf-collection-title">COLLECTION BOX</h1>
+      <div class="gf-collection-status">ADMIN ACCESS VERIFIED</div>
+      <button class="gf-collection-back" id="collection-back-btn">← Back to Home</button>
+    </header>
+
+    <main class="gf-collection-main">
+      <section class="gf-collection-total">
+        <div class="gf-collection-label">Total Collected</div>
+        <div class="gf-collection-amount" id="collection-total-amount">$0.00</div>
+        <div class="gf-collection-meta">
+          <span id="collection-month-label">Month: Unknown</span>
+          <span id="collection-admin-remaining">Admin Withdrawal Remaining: 16.5%</span>
+          <span id="collection-charity-remaining">Charity Portion Remaining: 50.5%</span>
+        </div>
+      </section>
+
+      <section class="gf-collection-actions">
+        <button id="collection-take-money-btn" class="gf-collection-action-btn gf-collection-action-magenta">
+          TAKE MONEY
+        </button>
+        <button id="collection-take-charity-btn" class="gf-collection-action-btn gf-collection-action-gold">
+          TAKE CHARITY PORTION
+        </button>
+        <button id="collection-view-history-btn" class="gf-collection-action-btn gf-collection-action-cyan">
+          VIEW HISTORY
+        </button>
+      </section>
+
+      <section class="gf-collection-history" id="collection-history-panel">
+        <h2>Withdrawal History (This Month)</h2>
+        <div class="gf-collection-history-table">
+          <div class="gf-collection-history-header">
+            <span>User</span>
+            <span>Percent</span>
+            <span>Date</span>
+          </div>
+          <div class="gf-collection-history-body" id="collection-history-body">
+            <!-- Rows injected by JS -->
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="gf-collection-modal-backdrop" id="collection-modal-backdrop">
+    <div class="gf-collection-modal" id="collection-modal">
+      <div class="gf-collection-modal-header">
+        <h2 id="collection-modal-title">WITHDRAW FUNDS</h2>
+        <button id="collection-modal-close" class="gf-collection-modal-close">✕</button>
+      </div>
+
+      <div class="gf-collection-modal-body">
+        <div class="gf-collection-step">
+          <div class="gf-collection-step-label">Select percentage to withdraw</div>
+          <div class="gf-collection-slider-row">
+            <input type="range" id="collection-percent-slider" min="1" max="16.5" step="0.5" value="5">
+            <div class="gf-collection-percent-display">
+              <span id="collection-percent-value">5.0</span>%
+            </div>
+          </div>
+          <div class="gf-collection-slider-fish">
+            <div class="gf-collection-fish-icon"></div>
+          </div>
+        </div>
+
+        <div class="gf-collection-step">
+          <div class="gf-collection-step-label">Bank information</div>
+          <input type="text" id="collection-bank-account" class="gf-collection-input" placeholder="Account Number">
+          <input type="text" id="collection-bank-routing" class="gf-collection-input" placeholder="Routing Number">
+          <input type="text" id="collection-bank-name" class="gf-collection-input" placeholder="Full Name">
+        </div>
+
+        <div class="gf-collection-step">
+          <div class="gf-collection-step-label">QR verification</div>
+          <div class="gf-collection-qr-box">
+            <div class="gf-collection-qr-fake"></div>
+          </div>
+          <button id="collection-qr-confirm-btn" class="gf-collection-qr-btn">
+            I HAVE SCANNED THE CODE
+          </button>
+          <div class="gf-collection-qr-status" id="collection-qr-status">Awaiting scan…</div>
+        </div>
+      </div>
+
+      <div class="gf-collection-modal-footer">
+        <button id="collection-confirm-btn" class="gf-collection-confirm-btn">
+          CONFIRM WITHDRAWAL
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="./ui/collection-box.js"></script>
+</body>
+</html>
