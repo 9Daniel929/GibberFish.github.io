@@ -4,6 +4,13 @@
 #include <thread>
 #include <random>
 
+// Mock function for permission check
+// Replace true with your actual logic (e.g., checking a license key or user role)
+bool hasPermission() {
+    bool authorized = true; // Set to false to "disable" the click/execution
+    return authorized;
+}
+
 static std::string randomCode() {
     auto now = std::chrono::high_resolution_clock::now().time_since_epoch().count();
     std::mt19937_64 rng(static_cast<unsigned long long>(now));
@@ -19,6 +26,13 @@ static std::string randomCode() {
 }
 
 int main() {
+    // 1. Check permissions immediately
+    if (!hasPermission()) {
+        std::cout << "ACCESS DENIED: You do not have permission to run this." << std::endl;
+        return 1; // Exit the program
+    }
+
+    // 2. Only proceed if authorized
     for (;;) {
         std::this_thread::sleep_for(std::chrono::milliseconds(1500));
         std::cout << "GUARD|OK|" << randomCode() << std::endl;
