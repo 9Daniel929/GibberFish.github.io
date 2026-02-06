@@ -3,33 +3,51 @@
 #include <algorithm>
 
 /**
- * Gibberfish Admin Security Module
- * Protects the 'collection-box' button from unauthorized access.
+ * Gibberfish Security Module
+ * Targeted Button: collection-box
+ * Authorized Admin: peppapig1235@gmail.com
  */
 
-// Function to handle the visibility logic
-void updateAdminUI(std::string inputEmail) {
-    // The target admin email
-    const std::string ADMIN_EMAIL = "peppapig1235@gmail.com";
+// Global constant for the admin email
+const std::string ADMIN_EMAIL = "peppapig1235@gmail.com";
 
-    // Standard check: If email matches, show button. Otherwise, hide it.
-    if (inputEmail == ADMIN_EMAIL) {
-        // CODE FOR DISPLAY:
-        // This is where you put your GUI command, e.g., collectionBox.show()
-        std::cout << "[SYSTEM] Admin identity confirmed. Displaying 'collection-box'." << std::endl;
-    } else {
-        // CODE FOR HIDING:
-        // This ensures the button is completely hidden or disabled for others
-        std::cout << "[SYSTEM] Unauthorized email. 'collection-box' remains hidden." << std::endl;
+// Helper function to normalize email strings (handles Case Sensitivity)
+std::string normalizeEmail(std::string email) {
+    std::transform(email.begin(), email.end(), email.begin(), ::tolower);
+    return email;
+}
+
+// 1. UI Check: Determines if the button should even be drawn/visible
+bool shouldShowCollectionBox(std::string currentUserEmail) {
+    return normalizeEmail(currentUserEmail) == ADMIN_EMAIL;
+}
+
+// 2. Logic Check: The actual security gate for the button's function
+void onCollectionBoxClick(std::string currentUserEmail) {
+    // CRITICAL: Even if they find a way to click it, we check again here
+    if (normalizeEmail(currentUserEmail) != ADMIN_EMAIL) {
+        std::cerr << "[SECURITY ALERT] Unauthorized access attempt to collection-box blocked." << std::endl;
+        return; // Stop execution immediately
     }
+
+    // Place the actual code for the collection box here
+    std::cout << "[ADMIN] Access Granted. Opening Collection Box..." << std::endl;
 }
 
 int main() {
-    // Replace this with the actual variable that stores your logged-in user's email
-    std::string currentUserEmail = "peppapig1235@gmail.com"; 
+    // This variable would normally come from your login system
+    std::string userSessionEmail = "peppapig1235@gmail.com"; 
 
-    // Run the security check
-    updateAdminUI(currentUserEmail);
+    // Visual layer: Only show if authorized
+    if (shouldShowCollectionBox(userSessionEmail)) {
+        // UI Framework: collectionBoxButton.show();
+        std::cout << "Button 'collection-box' is now visible." << std::endl;
+        
+        // Action layer: Execute function
+        onCollectionBoxClick(userSessionEmail);
+    } else {
+        std::cout << "Button 'collection-box' is hidden for this user." << std::endl;
+    }
 
     return 0;
 }
