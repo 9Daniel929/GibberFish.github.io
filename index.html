@@ -1,11 +1,9 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <title>GibberFish — Chaos Universe</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-
-  <link href="https://fonts.googleapis.com" rel="stylesheet">
 
   <link rel="stylesheet" href="styles/base.css">
   <link rel="stylesheet" href="styles/components.css">
@@ -15,81 +13,68 @@
   <link rel="stylesheet" href="styles/collection-box.css">
 
   <style>
+    body { background:#000; color:#0f0; }
     .gf-access-bar {
-      background: #111;
-      padding: 10px;
-      display: flex;
-      gap: 10px;
-      justify-content: center;
-      border-bottom: 1px solid #333;
+      background:#111;
+      padding:10px;
+      display:flex;
+      gap:10px;
+      justify-content:center;
+      border-bottom:1px solid #333;
     }
     .gf-access-bar input {
-      background: #000;
-      border: 1px solid #0f0;
-      color: #0f0;
-      padding: 5px 10px;
-      font-family: monospace;
+      background:#000;
+      border:1px solid #0f0;
+      color:#0f0;
+      padding:5px 10px;
     }
     .gf-access-bar button {
-      background: #0f0;
-      color: #000;
-      border: none;
-      padding: 5px 15px;
-      cursor: pointer;
-      font-weight: bold;
+      background:#0f0;
+      color:#000;
+      border:none;
+      padding:5px 15px;
+      font-weight:bold;
+      cursor:pointer;
     }
   </style>
 </head>
 
 <body>
 
-  <!-- ACCESS BAR -->
   <div class="gf-access-bar">
     <input type="email" id="userEmail" placeholder="ENTER ACCESS EMAIL..." />
-    <button onclick="checkAccess()">LOGIN</button>
+    <button id="loginBtn">LOGIN</button>
   </div>
 
-  <!-- TOP BAR -->
   <header class="gf-top-bar">
-    <div class="gf-top-left">
-      <span class="gf-logo-text">GibberFish — Beta 1.2</span>
-    </div>
-    <div class="gf-top-right">
-      <a href="Modpages/.html/Mods.html" class="gf-modpage-btn">Modpage</a>
-      <button id="premium-mode-btn">PREMIUM MODE</button>
-      <button id="spin-that-wheel-btn" style="display:none;">SPIN THAT WHEEL</button>
-      <button id="collection-box-btn" class="gf-collection-btn">
-        GO TO COLLECTION BOX
-      </button>
-    </div>
+    <span class="gf-logo-text">GibberFish — Beta 1.2</span>
+    <button id="collection-box-btn">GO TO COLLECTION BOX</button>
   </header>
 
-  <!-- APP ROOT -->
   <div id="app-root"></div>
 
-  <!-- 🔐 ACCESS + COLLECTION PROTECTION NEW UPDATE-->
-  <script src="./main.js"></script>
+  <!-- ✅ LOAD EVERYTHING WITH DEFER -->
+  <script defer src="./main.js"></script>
 
-  <!-- ORIGINAL SCRIPTS (UNCHANGED) -->
-  <script src="./user-tracking.js"></script>
-  <script src="./ui/layout.js"></script>
-  <script src="./ui/navigation.js"></script>
-  <script src="./content/pools.js"></script>
-  <script src="./engine/randomness.js"></script>
-  <script src="./engine/chaos-engine.js"></script>
-  <script src="./engine/sandbox.js"></script>
-  <script src="./engine/code-dsl-interpreter.js"></script>
-  <script src="./ui/cards.js"></script>
-  <script src="./ui/renderer.js"></script>
-  <script src="./modes/troll-mode.js"></script>
-  <script src="./modes/mode-hub.js"></script>
-  <script src="./modes/chaos-mode.js"></script>
-  <script src="./modes/code-mode.js"></script>
-  <script src="./premium.js"></script>
-  <script src="./premium-chat.js"></script>
-  <script src="./admin-event.js"></script>
-  <script src="./ui/collection-box.js"></script>
-  <script src="./app.js"></script>
+  <script defer src="./user-tracking.js"></script>
+  <script defer src="./ui/layout.js"></script>
+  <script defer src="./ui/navigation.js"></script>
+  <script defer src="./content/pools.js"></script>
+  <script defer src="./engine/randomness.js"></script>
+  <script defer src="./engine/chaos-engine.js"></script>
+  <script defer src="./engine/sandbox.js"></script>
+  <script defer src="./engine/code-dsl-interpreter.js"></script>
+  <script defer src="./ui/cards.js"></script>
+  <script defer src="./ui/renderer.js"></script>
+  <script defer src="./modes/troll-mode.js"></script>
+  <script defer src="./modes/mode-hub.js"></script>
+  <script defer src="./modes/chaos-mode.js"></script>
+  <script defer src="./modes/code-mode.js"></script>
+  <script defer src="./premium.js"></script>
+  <script defer src="./premium-chat.js"></script>
+  <script defer src="./admin-event.js"></script>
+  <script defer src="./ui/collection-box.js"></script>
+  <script defer src="./app.js"></script>
 
 </body>
 </html>
