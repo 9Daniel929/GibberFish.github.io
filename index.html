@@ -1,103 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <title>GibberFish — Chaos Universe</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+<script>
+  // ✅ EMAIL WHITELIST (EDIT ONLY THIS)
+  const WHITELISTED_EMAILS = [
+    "peppap1235@gmail.com",
+    "admin@gibberfish.com",
+    "user1@test.com"
+  ];
 
-  <link href="https://fonts.googleapis.com" rel="stylesheet">
+  function checkAccess() {
+    const email = document
+      .getElementById("userEmail")
+      .value
+      .trim()
+      .toLowerCase();
 
-  <link rel="stylesheet" href="styles/base.css">
-  <link rel="stylesheet" href="styles/components.css">
-  <link rel="stylesheet" href="styles/hub.css">
-  <link rel="stylesheet" href="styles/chaos.css">
-  <link rel="stylesheet" href="styles/codemode.css">
-  <link rel="stylesheet" href="styles/collection-box.css">
-
-  <style>
-    /* Styling for the new login bar */
-    .gf-access-bar {
-      background: #111;
-      padding: 10px;
-      display: flex;
-      gap: 10px;
-      justify-content: center;
-      border-bottom: 1px solid #333;
+    if (!WHITELISTED_EMAILS.includes(email)) {
+      alert("❌ You do not have permission.");
+      return;
     }
-    .gf-access-bar input {
-      background: #000;
-      border: 1px solid #0f0;
-      color: #0f0;
-      padding: 5px 10px;
-      font-family: 'Fira Mono', monospace;
-    }
-    .gf-access-bar button {
-      background: #0f0;
-      color: #000;
-      border: none;
-      padding: 5px 15px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-  </style>
-</head>
-<body>
-  <!-- NEW: Access Bar added at the very top -->
-  <div class="gf-access-bar">
-    <input type="email" id="userEmail" placeholder="ENTER ACCESS EMAIL...">
-    <button onclick="checkAccess()">LOGIN</button>
-  </div>
 
-  <header class="gf-top-bar">
-    <div class="gf-top-left">
-      <span class="gf-logo-text">GibberFish — Beta 1.2</span>
-    </div>
-    <div class="gf-top-right">
-      <a href="Modpages/.html/Mods.html" class="gf-modpage-btn">Modpage</a>
-      <button id="premium-mode-btn">PREMIUM MODE</button>
-      <button id="spin-that-wheel-btn" style="display:none;">SPIN THAT WHEEL</button>
-      <button id="collection-box-btn" class="gf-collection-btn">GO TO COLLECTION BOX</button>
-    </div>
-  </header>
+    // Save approved email
+    localStorage.setItem("gf_access_email", email);
+    alert("✅ ACCESS GRANTED");
+  }
 
-  <div id="app-root"></div>
+  // 🔒 Protect Collection Box button
+  document.addEventListener("DOMContentLoaded", () => {
+    const collectionBtn = document.getElementById("collection-box-btn");
 
-  <!-- NEW: Logic for Access Check -->
-  <script>
-    function checkAccess() {
-        const emailInput = document.getElementById('userEmail').value;
-        // List of approved emails
-        const allowedEmails = ["admin@gibberfish.com", "user1@test.com"];
+    if (!collectionBtn) return;
 
-        if (allowedEmails.includes(emailInput)) {
-            alert("ACCESS GRANTED");
-            // Site continues as normal
-        } else {
-            // Redirects to your separate access.html file
-            window.location.href = "access.html"; 
-        }
-    }
-  </script>
+    collectionBtn.addEventListener("click", (e) => {
+      const savedEmail = localStorage.getItem("gf_access_email");
 
-  <!-- Rest of your original scripts -->
-  <script src="./user-tracking.js"></script>
-  <script src="./ui/layout.js"></script>
-  <script src="./ui/navigation.js"></script>
-  <script src="./content/pools.js"></script>
-  <script src="./engine/randomness.js"></script>
-  <script src="./engine/chaos-engine.js"></script>
-  <script src="./engine/sandbox.js"></script>
-  <script src="./engine/code-dsl-interpreter.js"></script>
-  <script src="./ui/cards.js"></script>
-  <script src="./ui/renderer.js"></script>
-  <script src="./modes/troll-mode.js"></script>
-  <script src="./modes/mode-hub.js"></script>
-  <script src="./modes/chaos-mode.js"></script>
-  <script src="./modes/code-mode.js"></script>
-  <script src="./premium.js"></script>
-  <script src="./premium-chat.js"></script>
-  <script src="./admin-event.js"></script>
-  <script src="./ui/collection-box.js"></script>
-  <script src="./app.js"></script>
-</body>
-</html>
+      if (!WHITELISTED_EMAILS.includes(savedEmail)) {
+        e.preventDefault();
+        alert("❌ You do not have permission to access the Collection Box.");
+        return;
+      }
+
+      // ✅ allowed → collection-box.js continues normally
+    });
+  });
+</script>
